@@ -66,10 +66,31 @@ def crate_items(items_to_create):
 def layout_items(items_to_layout):
     number_of_gaps= len(items_to_layout) +1
     gap_size=WIDTH/number_of_gaps
+    random.shuffle(items_to_layout)
+    for index,items in enumerate(items_to_layout):
+        new_x_pos=(index+1) * gap_size
+        items.x=new_x_pos
         
-def animate_items():  
-   
-def mouse_down():
+def animate_items(items_to_animate):
+    global animations
+    for items in items_to_animate:
+        duration=START_SPEED-current_level
+        animate=animate(items,duration=duration,on_finished=handle_game_over,y=HIEGHT)  
+        animations.append(animate)
+
+
+def handle_game_over():
+    global game_over
+    game_over=True
+
+def mouse_down(pos):
+    global items,current_level
+    for items in items:
+        if item.collidepoint(pos):
+            if "paper" in items.image:
+                handle_game_complete()
+            else:
+                handle_game_over()    
 
 def handle_game_complete():
 
